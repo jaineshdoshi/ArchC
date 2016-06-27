@@ -399,6 +399,7 @@ int ac_load_elf(char* filename, char* data_mem, unsigned int data_mem_size)
   //Set start address
   ac_start_addr = convert_endian(4,ehdr.e_entry);
   if (ac_start_addr > data_mem_size) {
+	printf("Memory starting Address=%d \n Data memory size = %d", ac_start_addr, data_mem_size);
     AC_ERROR("the start address of the application is beyond model memory\n");
     close(fd);
     exit(EXIT_FAILURE);
