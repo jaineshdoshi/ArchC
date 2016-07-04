@@ -396,7 +396,7 @@ int ac_load_elf(char* filename, char* data_mem, unsigned int data_mem_size)
   //Set start address
   ac_start_addr = ehdr.e_entry;
   if (ac_start_addr > data_mem_size) {
-    AC_ERROR("the start address of the application is beyond model memory ---\n");
+    AC_ERROR("the start address of the application is beyond model memory\n");
     fclose(fd);
     exit(EXIT_FAILURE);
   }

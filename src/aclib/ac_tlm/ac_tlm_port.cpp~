@@ -358,7 +358,7 @@ void ac_tlm_port::write(ac_ptr buf, uint32_t address,
 //      }
 //      i--;
     #ifdef debugTLM
-    printf("\nAC_TLM_PORT WRITE: n_words--> %d  wordsize-->%d  i--> %d data-->%d",n_words, wordsize, i, req.data);
+    printf("\nAC_TLM_PORT WRITE: n_words--> %d  wordsize-->%d  i--> %d data-->%d",n_words, wordsize, i, *((uint32_t*)p));
     #endif
 
       (*this)->transport(req);
