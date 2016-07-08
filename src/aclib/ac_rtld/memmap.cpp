@@ -183,8 +183,6 @@ namespace ac_dynlink {
   memmap_node *memmap::add_region (Elf32_Addr start_addr, Elf32_Word size) {
     memmap_node *aux = list, *prior = NULL;
 
-    //debug @JD
-    //if (start_addr + ((unsigned)size) - 0x80020000 > memsize) {
     if (start_addr + ((unsigned)size) > memsize) {
       fprintf(stderr, "ArchC memory manager error: not enough memory in target.\n");
       fprintf(stderr, "  add_region failed: Start address = 0x%X ; Size = 0x%X",
@@ -261,7 +259,7 @@ namespace ac_dynlink {
 
   Elf32_Addr memmap::suggest_mmap_region(Elf32_Word size) {
     /* Better suggest region far from stack and far from program break */
-    Elf32_Addr addr = ((memsize - newbrkaddr) >> 1) + newbrkaddr;
+    xElf32_Addr addr = ((memsize - newbrkaddr) >> 1) + newbrkaddr;
     Elf32_Addr nextaddr;
     bool loop = false;
     addr = ALIGN_ADDR(addr);

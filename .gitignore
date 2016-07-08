@@ -6,6 +6,7 @@
 *.lai
 *.la
 *.a
+*~
 
 # autotools generated files
 Makefile.in

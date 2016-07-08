@@ -91,7 +91,7 @@ void ac_tlm_port::read(ac_ptr buf, uint32_t address, int wordsize) {
   if (rsp.status == SUCCESS) {
 
     #ifdef debugTLM
-    printf("\n\nAC_TLM_PORT READ: command-->____ address-->%ld", address);
+    printf("\n\nAC_TLM_PORT READ: address-->%04x", address);
     #endif
 
     switch (wordsize) {
@@ -104,7 +104,7 @@ void ac_tlm_port::read(ac_ptr buf, uint32_t address, int wordsize) {
     case 32:
       *(buf.ptr32) = rsp.data;
       #ifdef debugTLM
-	      printf("\nAC_TLM_PORT READ: wordsize-->%d  data-->%d",wordsize,*(buf.ptr32));
+	      printf("\nAC_TLM_PORT READ: wordsize-->%d  data--> %04x",wordsize,*(buf.ptr32));
       #endif
       break;
     case 64:
@@ -117,7 +117,7 @@ void ac_tlm_port::read(ac_ptr buf, uint32_t address, int wordsize) {
   else
   {
 	#ifdef debugTLM
-   	printf("\n\nAC_TLM_PORT unable to READ: command-->____ address-->%ld", address);
+   	printf("\n\nAC_TLM_PORT unable to READ: at address-->%04x", address);
    	#endif
   }
 }
@@ -143,7 +143,7 @@ void ac_tlm_port::read(ac_ptr buf, uint32_t address,
 
   req.type = READ;
   #ifdef debugTLM
-  	printf("\n\nAC_TLM_PORT READ N_WORDS: wordsize--> %d  address-->%ld",wordsize, address);
+  	printf("\n\nAC_TLM_PORT READ N_WORDS: wordsize--> %d  address-->%04x",wordsize, address);
   #endif
 
   switch (wordsize) {
@@ -230,7 +230,7 @@ void ac_tlm_port::write(ac_ptr buf, uint32_t address, int wordsize) {
 //   req.addr = address;
 
   #ifdef debugTLM 
-  printf("\n\nAC_TLM_PORT WRITE: wordsize--> %d address-->%ld",wordsize, address);
+  printf("\n\nAC_TLM_PORT WRITE: wordsize--> %d address-->%04x",wordsize, address);
   #endif
 
 
@@ -304,7 +304,7 @@ void ac_tlm_port::write(ac_ptr buf, uint32_t address,
   ac_tlm_rsp rsp;
 
   #ifdef debugTLM 
-  printf("\n\nAC_TLM_PORT WRITE: wordsize--> %d address-->%ld",wordsize, address);
+  printf("\n\nAC_TLM_PORT WRITE: wordsize--> %d address-->%04x",wordsize, address);
   #endif
 
   switch (wordsize) {
@@ -358,7 +358,7 @@ void ac_tlm_port::write(ac_ptr buf, uint32_t address,
 //      }
 //      i--;
     #ifdef debugTLM
-    printf("\nAC_TLM_PORT WRITE: n_words--> %d  wordsize-->%d  i--> %d data-->%d",n_words, wordsize, i, req.data);
+    printf("\nAC_TLM_PORT WRITE: n_words--> %d  wordsize-->%d  address--> %04x data--> %04x",n_words, wordsize, address + (4*i), req.data);
     #endif
 
       (*this)->transport(req);
