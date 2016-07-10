@@ -259,7 +259,7 @@ namespace ac_dynlink {
 
   Elf32_Addr memmap::suggest_mmap_region(Elf32_Word size) {
     /* Better suggest region far from stack and far from program break */
-    xElf32_Addr addr = ((memsize - newbrkaddr) >> 1) + newbrkaddr;
+    Elf32_Addr addr = ((memsize - newbrkaddr) >> 1) + newbrkaddr;
     Elf32_Addr nextaddr;
     bool loop = false;
     addr = ALIGN_ADDR(addr);

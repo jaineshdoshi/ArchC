@@ -184,6 +184,7 @@ public:
   sc_core::sc_time time = sc_core::sc_time(0, SC_NS);
 
     storage->read(&aux_word, address, sizeof(ac_word) * 8,time,this->procId);
+    //debug @JD - byte swap needed
     if (!this->ac_mt_endian) {
       aux_word = byte_swap(aux_word);
     }

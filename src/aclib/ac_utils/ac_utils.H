@@ -193,8 +193,8 @@ int ac_load_elf(ac_arch_ref<ac_word, ac_Hword> &ref, char* filename, unsigned ch
 
   //Set start address
   //debug @JD
-  //ac_start_addr = convert_endian(4,ehdr.e_entry, match_endian) - 0x800200bc;
-  ac_start_addr = convert_endian(4,ehdr.e_entry, match_endian);
+  ac_start_addr = convert_endian(4,ehdr.e_entry, match_endian) - 0x800200bc;
+  //ac_start_addr = convert_endian(4,ehdr.e_entry, match_endian);
   if (ac_start_addr > data_mem_size) {
     AC_ERROR("the start address of the application is beyond model memory -> ");
     //debug @JD
@@ -246,8 +246,8 @@ int ac_load_elf(ac_arch_ref<ac_word, ac_Hword> &ref, char* filename, unsigned ch
         /* Fall through. */
       case PT_LOAD: { // Loadable segment type - load dynamic segments as well
       	//debug @JD
-        //Elf32_Addr p_vaddr = convert_endian(4,phdr.p_vaddr, match_endian) - 0x80020000;
-				Elf32_Addr p_vaddr = convert_endian(4,phdr.p_vaddr, match_endian);
+        Elf32_Addr p_vaddr = convert_endian(4,phdr.p_vaddr, match_endian) - 0x80020000;
+				//Elf32_Addr p_vaddr = convert_endian(4,phdr.p_vaddr, match_endian);
         
         Elf32_Word p_memsz = convert_endian(4,phdr.p_memsz, match_endian);
         Elf32_Word p_filesz = convert_endian(4,phdr.p_filesz, match_endian);
