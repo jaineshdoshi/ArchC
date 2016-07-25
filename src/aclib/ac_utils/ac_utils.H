@@ -193,9 +193,10 @@ int ac_load_elf(ac_arch_ref<ac_word, ac_Hword> &ref, char* filename, unsigned ch
 
   //Set start address
   //debug @JD
-  ac_start_addr = convert_endian(4,ehdr.e_entry, match_endian) - 0x800200bc;
-  //ac_start_addr = convert_endian(4,ehdr.e_entry, match_endian);
-  if (ac_start_addr > data_mem_size) {
+  // ac_start_addr = convert_endian(4,ehdr.e_entry, match_endian) - 0x800200bc;
+  ac_start_addr = convert_endian(4,ehdr.e_entry, match_endian);
+  //debug @JD
+  if (ac_start_addr - 0x800200bc > data_mem_size) {
     AC_ERROR("the start address of the application is beyond model memory -> ");
     //debug @JD
     AC_ERROR(data_mem_size);
@@ -246,15 +247,15 @@ int ac_load_elf(ac_arch_ref<ac_word, ac_Hword> &ref, char* filename, unsigned ch
         /* Fall through. */
       case PT_LOAD: { // Loadable segment type - load dynamic segments as well
       	//debug @JD
-        Elf32_Addr p_vaddr = convert_endian(4,phdr.p_vaddr, match_endian) - 0x80020000;
-				//Elf32_Addr p_vaddr = convert_endian(4,phdr.p_vaddr, match_endian);
+  				//Elf32_Addr p_vaddr = convert_endian(4,phdr.p_vaddr, match_endian) - 0x800200bc;
+        Elf32_Addr p_vaddr = convert_endian(4,phdr.p_vaddr, match_endian);
         
         Elf32_Word p_memsz = convert_endian(4,phdr.p_memsz, match_endian);
         Elf32_Word p_filesz = convert_endian(4,phdr.p_filesz, match_endian);
         Elf32_Off  p_offset = convert_endian(4,phdr.p_offset, match_endian);
         
         //Error if segment greater then memory
-        if (data_mem_size < p_vaddr + p_memsz) {
+        if (data_mem_size < p_vaddr + p_memsz - 0x80020000) {
           AC_ERROR("not enough memory in ArchC model to load application.\n");
           AC_SAY(p_memsz);
           AC_SAY(p_vaddr);
@@ -263,23 +264,31 @@ int ac_load_elf(ac_arch_ref<ac_word, ac_Hword> &ref, char* filename, unsigned ch
         }
         
         //Set heap to the end of the segment
-        if (ac_heap_ptr < p_vaddr + p_memsz) 
+        // debug @JD
+        if (ac_heap_ptr < p_vaddr + p_memsz - 0x80020000)         
+        // if (ac_heap_ptr < p_vaddr + p_memsz) 
         {
         	ac_heap_ptr = p_vaddr + p_memsz;
         }
 
         //Update size value
-        if (p_vaddr + p_memsz > size)
+        // debug @JD
+        if (p_vaddr + p_memsz - 0x80020000 > size)
+        // if (p_vaddr + p_memsz > size)
           size = p_vaddr + p_memsz;
 
         //Load 
         lseek(fd, p_offset, SEEK_SET);
-        if (read(fd, data_mem + p_vaddr, p_filesz) != (signed)p_filesz) {
+        // debug @JD
+        if (read(fd, data_mem + p_vaddr - 0x80020000, p_filesz) != (signed)p_filesz) {
+        // if (read(fd, data_mem + p_vaddr, p_filesz) != (signed)p_filesz) {
           AC_ERROR("reading ELF LOAD segment.\n");
           close(fd);
           exit(EXIT_FAILURE);
         }
-        memset(data_mem + p_vaddr + p_filesz, 0, p_memsz - p_filesz);
+        // debug @ JD
+        memset(data_mem + p_vaddr + p_filesz - 0x80020000, 0, p_memsz - p_filesz);
+        // memset(data_mem + p_vaddr + p_filesz, 0, p_memsz - p_filesz);
         break;
       }
       default:

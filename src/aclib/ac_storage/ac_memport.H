@@ -474,7 +474,9 @@ public:
       //init decode cache and return
       if(!this->dec_cache_size)
         this->dec_cache_size = this->ac_heap_ptr;
-      storage->write(Data, 0, 32, (this->ac_heap_ptr)/4,time);
+      // debug @JD
+      storage->write(Data, 0x80020000, 32, (this->ac_heap_ptr - 0x80020000)/4,time);
+        // storage->write(Data, 0, 32, (this->ac_heap_ptr)/4,time);
       setTimeInfo (time);
       delete[] Data;
       return;

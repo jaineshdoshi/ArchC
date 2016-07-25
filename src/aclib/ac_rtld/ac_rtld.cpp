@@ -154,7 +154,9 @@ namespace ac_dynlink {
     if (!initiated) {
       initiated = true;
       mem_map.set_memsize(memsize);
-      mem_map.add_region(start_addr, end_addr - start_addr);
+      // debug @JD
+      mem_map.add_region(start_addr - 0x80020000, end_addr - start_addr);
+      // mem_map.add_region(start_addr, end_addr - start_addr);
       mem_map.set_brk_addr(brkaddr);
       detect_static_glibc(fd, match_endian);
     }
