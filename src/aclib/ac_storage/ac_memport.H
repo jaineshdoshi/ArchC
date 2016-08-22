@@ -179,7 +179,7 @@ public:
 
 ///Reads a word
   inline ac_word read(uint32_t address) {
-  //printf("\n\nAC_MEMPORT::read-> address=%x", address);
+  printf("\n\nAC_MEMPORT::read-> address=%x", address);
 
   sc_core::sc_time time = sc_core::sc_time(0, SC_NS);
 
@@ -194,7 +194,7 @@ public:
 
   ///Reads a byte
   inline uint8_t read_byte(uint32_t address) {
-    //printf("\n\nAC_MEMPORT::read_byte->address=%x", address);
+    // printf("\n\nAC_MEMPORT::read_byte->address=%x", address);
     sc_core::sc_time time = sc_core::sc_time(0, SC_NS);
     storage->read(&aux_byte, address, 8,time,this->procId);
     setTimeInfo (time);
@@ -204,7 +204,7 @@ public:
   ///Reads half word
   inline ac_Hword read_half(uint32_t address) {
 
-    //printf("\n\nAC_MEMPORT::read_half address=%x", address);
+    // printf("\n\nAC_MEMPORT::read_half address=%x", address);
 
     sc_core::sc_time time = sc_core::sc_time(0, SC_NS);
 
@@ -258,7 +258,7 @@ public:
   //!Writing a word
     inline void write(uint32_t address, ac_word datum) {
 
-      //printf("\n\nAC_MEMPORT::write-> address=%x datum=%x", address, datum);
+      printf("\n\nAC_MEMPORT::write-> address=%x datum=%x", address, datum);
 
       sc_core::sc_time time = sc_core::sc_time(0, SC_NS);
       aux_word = datum;
@@ -273,7 +273,7 @@ public:
    //!Writing a byte
     inline void write_byte(uint32_t address, uint8_t datum) {
 
-        //printf("\n\nAC_MEMPORT::write_byte->address=%x datum=%x", address, datum);
+        // printf("\n\nAC_MEMPORT::write_byte->address=%x datum=%x", address, datum);
 
         sc_core::sc_time time = sc_core::sc_time(0, SC_NS);
         storage->write(&datum, address, 8,time,this->procId);
